@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
 
+
+
+
 // Avoid name not found warnings
 declare var auth0: any;
 
@@ -10,11 +13,12 @@ export class Auth {
 
   // Configure Auth0
   auth0 = new auth0.WebAuth({
-    domain: 'mimo-test.auth0.com',
+    domain: 'https://mimo-test.auth0.com/',
     clientID: 'PAn11swGbMAVXVDbSCpnITx5Utsxz1co',
     // specify your desired callback URL
-    callbackURL: 'https://omar-ramalho-mimo-omarsr.c9users.io/login',
+    callbackURL: 'http://localhost:4200/',
     responseType: 'token id_token'
+
   });
 
   constructor(private router: Router) {
@@ -26,7 +30,7 @@ export class Auth {
         window.location.hash = '';
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/account']);
       } else if (authResult && authResult.error) {
         alert('Error: ' + authResult.error);
       }
@@ -54,7 +58,7 @@ export class Auth {
     this.auth0.redirect.signupAndLogin({
       connection: 'Username-Password-Authentication',
       email,
-      password,
+      password
     }, function(err) {
       if (err) {
         alert('Error: ' + err.description);

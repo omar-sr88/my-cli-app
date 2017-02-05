@@ -3,14 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { routing, mimoRoutingProviders} from './app.routing';
+import { BrowserXhr } from '@angular/http';
+import {CustExtBrowserXhr} from './cust-ext-browser-xhr';
+
 
 import { AppComponent } from './app.component';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
-
-
 import { Auth } from './services/auth.service';
-
-
 
 
 import { LoginComponent } from './login/login.component';
@@ -38,7 +37,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   providers: [
     {
-      provide: AuthHttp,
+      provide: [AuthHttp,BrowserXhr],
       useFactory: authHttpServiceFactory,
       deps: [ Http, RequestOptions ]
     },
